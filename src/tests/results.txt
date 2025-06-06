@@ -1,0 +1,35 @@
+http://localhost:3000
+
+testing getting the about
+-------------------------
+url=http://localhost:3000/api/about/
+data.status_code=200
+b'[{"first_name":"Kfir","last_name":"Messika"},{"first_name":"Jonatan","last_name":"Wallenstein"}]'
+data.text=[{"first_name":"Kfir","last_name":"Messika"},{"first_name":"Jonatan","last_name":"Wallenstein"}]
+[{'first_name': 'Kfir', 'last_name': 'Messika'}, {'first_name': 'Jonatan', 'last_name': 'Wallenstein'}]
+
+
+testing getting the report - 1
+------------------------------
+url=http://localhost:3000/api/report/?id=123123&year=2025&month=2
+data.status_code=200
+b'[{"_id":"food","costs":[]},{"_id":"health","costs":[]},{"_id":"housing","costs":[]},{"_id":"sport","costs":[]},{"_id":"education","costs":[]}]'
+data.text=[{"_id":"food","costs":[]},{"_id":"health","costs":[]},{"_id":"housing","costs":[]},{"_id":"sport","costs":[]},{"_id":"education","costs":[]}]
+
+
+
+testing adding cost item
+----------------------------------
+url=http://localhost:3000/api/add/
+data.status_code=201
+b'{"userid":123123,"description":"milk 9","category":"food","sum":8,"date":"2025-06-06T12:15:16.839Z","_id":"6842dbd4ea7c4ab669a4310b","__v":0}'
+
+
+testing getting the report - 2
+------------------------------
+url=http://localhost:3000/api/report/?id=123123&year=2025&month=2
+data.status_code=200
+b'[{"_id":"food","costs":[]},{"_id":"health","costs":[]},{"_id":"housing","costs":[]},{"_id":"sport","costs":[]},{"_id":"education","costs":[]}]'
+data.text=[{"_id":"food","costs":[]},{"_id":"health","costs":[]},{"_id":"housing","costs":[]},{"_id":"sport","costs":[]},{"_id":"education","costs":[]}]
+
+

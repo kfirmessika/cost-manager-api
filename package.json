@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "nodemon src/server.js",
     "start": "node src/server.js",
+    "reset-db": "node src/resetDatabase.js",
     "lint": "eslint .",
     "test": "jest --runInBand"
   },
@@ -13,7 +14,7 @@
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
-    "mongoose": "^8.15.0",
+    "mongoose": "^8.15.1",
     "supertest": "^7.1.1"
   },
   "devDependencies": {

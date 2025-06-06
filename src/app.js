@@ -1,16 +1,47 @@
-// src/app.js
+// app.js
+// ─────────────────────────────────────────────────────────────────────────────
+// Main Express application file. Mounts all route modules under /api.
+
 const express = require('express');
+require('dotenv').config();       // Load environment variables (e.g., DB_URI)
+const mongoose = require('mongoose');
+
+const aboutRoutes = require('./routes/about');
+const userRoutes  = require('./routes/users');
+const costRoutes  = require('./routes/costs');
+
 const app = express();
 
-app.use(express.json());
+// ─── MIDDLEWARE ────────────────────────────────────────────────────────────────
+app.use(express.json());          // Parse JSON bodies on incoming requests
 
-app.use('/api', require('./routes/costs'));
-app.use('/api', require('./routes/about'));
-app.use('/api', require('./routes/users'));  // new
+// ─── ROUTES ─────────────────────────────────────────────────────────────────────
+app.use('/api', aboutRoutes);
+app.use('/api', userRoutes);
+app.use('/api', costRoutes);
 
-app.use((err, req, res, next) => {
-    console.error(err);
-    res.status(500).json({ error: err.message });
-});
+// ─── GLOBAL ERROR HANDLER ───────────────────────────────────────────────────────
+// This catches any errors passed via next(err) in controllers
+    app.use((err, req, res, _next) => {
+        console.error(err.stack);
+        res.status(500).json({ error: 'An internal server error occurred.' });
+    });
 
-module.exports = app;
+// ─── DATABASE & SERVER START ────────────────────────────────────────────────────
+const PORT = process.env.PORT || 3000;
+mongoose
+    .connect(process.env.DB_URI, {
+        useNewUrlParser:    true,
+        useUnifiedTopology: true
+    })
+    .then(() => {
+        console.log('Connected to MongoDB.');
+        app.listen(PORT, () => {
+            console.log(`Server is listening on port ${PORT}`);
+        });
+    })
+    .catch((err) => {
+        console.error('Failed to connect to MongoDB:', err);
+    });
+
+module.exports = app; // Export for testing (supertest)

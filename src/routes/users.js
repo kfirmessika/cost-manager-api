@@ -1,18 +1,26 @@
 // src/routes/users.js
-const express            = require('express');
+// ─────────────────────────────────────────────────────────────────────────────
+// Defines routes for all “/api/users” endpoints:
+//   • POST   /api/users     → createUser()
+//   • GET    /api/users/:id → getUser()
+//   • GET    /api/users     → getAllUsers()
+
+const express = require('express');
 const {
   getUser,
   getAllUsers,
-  createUser        // ← import the new function
+  createUser
 } = require('../controllers/userController');
 
 const router = express.Router();
 
-// ─── NEW: Create User ─────────────────────────────────────────────────
+// POST /api/users → createUser()
 router.post('/users', createUser);
 
-// Existing “get by ID” and “get all”:
+// GET /api/users/:id → getUser()
 router.get('/users/:id', getUser);
-router.get('/users',     getAllUsers);
+
+// GET /api/users → getAllUsers()
+router.get('/users', getAllUsers);
 
 module.exports = router;
